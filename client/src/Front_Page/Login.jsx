@@ -25,12 +25,12 @@ function Auth() {
     });
   }, []);
 
-  // ✅ Auto redirect if already logged in
+  // ✅ Auto redirect if already logged in (allow back button to work)
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const parsed = JSON.parse(storedUser);
-      if (parsed.role === "admin") navigate("/admin");
+      if (parsed.role === "admin") navigate("/admin"); 
       else navigate("/home");
     }
   }, [navigate]);
@@ -61,7 +61,7 @@ function Auth() {
       // ✅ Save user session
       localStorage.setItem("user", JSON.stringify(data));
 
-      if (data?.role === "admin") navigate("/admin");
+      if (data?.role === "admin") navigate("/admin"); 
       else navigate("/home");
 
       resetForm();
