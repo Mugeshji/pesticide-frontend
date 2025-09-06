@@ -11,7 +11,15 @@ function Home() {
    const [showAll, setShowAll] = useState(false); 
    const navigate = useNavigate();
 
-     
+      const handleLogout = () => {
+    // ✅ Clear session/localStorage if you’re storing user info
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+
+    // ✅ Redirect to login page
+    navigate("/login");
+  };
+
   // Add product to cumulative cart in localStorage
   const handleAddToCart = (product) => {
     // Read current cart from localStorage
@@ -89,39 +97,82 @@ function Home() {
       {/* <!-- Topbar End --> */}
 
 {/* 
-  <!-- Navbar Start --> */}
-        <div class="container-fluid bg-dark">
-            <div class="container">
-                <nav class="navbar navbar-dark navbar-expand-lg py-lg-0">
-                    <a href="index.html" class="navbar-brand">
-                        <h1 class="text-primary mb-0 display-5">Pest<span class="text-white">Kit</span><i class="fa fa-spider text-primary ms-2"></i></h1>
+  {/* Navbar Start */}
+      <div className="container-fluid bg-dark">
+        <div className="container">
+          <nav className="navbar navbar-dark navbar-expand-lg py-lg-0">
+            <a href="/" className="navbar-brand">
+              <h1 className="text-primary mb-0 display-5">
+                Pest<span className="text-white">Kit</span>
+                <i className="fa fa-spider text-primary ms-2"></i>
+              </h1>
+            </a>
+            <button
+              className="navbar-toggler bg-primary"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarCollapse"
+            >
+              <span className="fa fa-bars text-dark"></span>
+            </button>
+            <div className="collapse navbar-collapse me-n3" id="navbarCollapse">
+              <div className="navbar-nav ms-auto">
+                <a href="/" className="nav-item nav-link active">
+                  Home
+                </a>
+                <a href="/about" className="nav-item nav-link">
+                  About
+                </a>
+                <a href="/service" className="nav-item nav-link">
+                  Services
+                </a>
+                <a href="/project" className="nav-item nav-link">
+                  Projects
+                </a>
+                <div className="nav-item dropdown">
+                  <a
+                    href="#"
+                    className="nav-link dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                  >
+                    Pages
+                  </a>
+                  <div className="dropdown-menu m-0 bg-primary">
+                    <a href="/price" className="dropdown-item">
+                      Pricing Plan
                     </a>
-                    <button class="navbar-toggler bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                        <span class="fa fa-bars text-dark"></span>
-                    </button>
-                    <div class="collapse navbar-collapse me-n3" id="navbarCollapse">
-                        <div class="navbar-nav ms-auto">
-                            <a href="index.html" class="nav-item nav-link active">Home</a>
-                            <a href="about.html" class="nav-item nav-link">About</a>
-                            <a href="service.html" class="nav-item nav-link">Services</a>
-                            <a href="project.html" class="nav-item nav-link">Projects</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu m-0 bg-primary">
-                                    <a href="price.html" class="dropdown-item">Pricing Plan</a>
-                                    <a href="blog.html" class="dropdown-item">Blog Post</a>
-                                    <a href="team.html" class="dropdown-item">Team Members</a>
-                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                    <a href="404.html" class="dropdown-item">404 Page</a>
-                                </div>
-                            </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
-                        </div>
-                    </div>
-                </nav>
+                    <a href="/blog" className="dropdown-item">
+                      Blog Post
+                    </a>
+                    <a href="/team" className="dropdown-item">
+                      Team Members
+                    </a>
+                    <a href="/testimonial" className="dropdown-item">
+                      Testimonial
+                    </a>
+                    <a href="/404" className="dropdown-item">
+                      404 Page
+                    </a>
+                  </div>
+                </div>
+                <a href="/contact" className="nav-item nav-link">
+                  Contact
+                </a>
+
+                {/* 🔹 Logout Button */}
+                <button
+                  className="btn btn-danger ms-3"
+                  onClick={handleLogout}
+                  style={{ borderRadius: "20px", padding: "5px 15px" }}
+                >
+                  Logout
+                </button>
+              </div>
             </div>
+          </nav>
         </div>
-        {/* <!-- Navbar End --> */}
+      </div>
+      {/* Navbar End */}
 
 
         {/* <!-- Carousel Start --> */}
