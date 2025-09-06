@@ -10,18 +10,8 @@ import Product from './products/product';
 import Add_prooducts from './products/Add_prooducts';
 import View_products from './products/View_products';
 import Payment from './Front_Page/PaymentPage'; 
-import AddToCart from './Front_Page/AddToCart';
-import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
-
-// ✅ Simple function to check login
-const isLoggedIn = () => {
-  return !!localStorage.getItem("user");
-};
-
-// ✅ Get user data (for role check)
-const getUser = () => {
-  return JSON.parse(localStorage.getItem("user")) || {};
-};
+import AddToCart from './Front_Page/AddToCart'; // <-- NEW AddToCart Import
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -29,59 +19,57 @@ const router = createBrowserRouter([
     element: <Log />,
   },
   {
-    path: "/register",
+    path: "/Register",
     element: <Register />,
   },
   {
-    path: "/home",
-    element: isLoggedIn() ? <Home /> : <Navigate to="/" />,
+    path:"/home",
+    element:<Home />
   },
   {
-    path: "/admin",
-    element: isLoggedIn() && getUser().role === "admin" ? (
-      <Admin />
-    ) : (
-      <Navigate to="/" />
-    ),
+    path:"/admin",
+    element:<Admin />
   },
   {
     path: "/user",
-    element: isLoggedIn() ? <User /> : <Navigate to="/" />,
+    element: <User />,
   },
   {
     path: "/products",
-    element: isLoggedIn() ? <Product /> : <Navigate to="/" />,
+    element: <Product />,
   },
   {
     path: "/add_products",
-    element: isLoggedIn() ? <Add_prooducts /> : <Navigate to="/" />,
+    element: <Add_prooducts />,
   },
   {
     path: "/all_products",
-    element: isLoggedIn() ? <View_products /> : <Navigate to="/" />,
+    element: <View_products />,
   },
   {
-    path: "/add",
-    element: isLoggedIn() ? <Adduser /> : <Navigate to="/" />,
+    path:"/add",
+    element:<Adduser />
+  },  
+  {
+    path:"/update/:id",
+    element:<Update />
   },
   {
-    path: "/update/:id",
-    element: isLoggedIn() ? <Update /> : <Navigate to="/" />,
+    path:"/payment",
+    element:<Payment />
   },
   {
-    path: "/payment",
-    element: isLoggedIn() ? <Payment /> : <Navigate to="/" />,
-  },
-  {
-    path: "/addtocart",
-    element: isLoggedIn() ? <AddToCart /> : <Navigate to="/" />,
+    path:"/addtocart",           // <-- NEW route for AddToCart page
+    element:<AddToCart />
   }
 ]);
 
 function App() {
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <header className="App-header">
+        <RouterProvider router={router} /> 
+      </header>
     </div>
   );
 }
