@@ -17,23 +17,12 @@ function Auth() {
   const cardRef = useRef(null);
   const titleRef = useRef(null);
 
-  // ✅ Animation effect
   useEffect(() => {
     requestAnimationFrame(() => {
       titleRef.current?.classList.add("lp-fade-in-down");
       cardRef.current?.classList.add("lp-pop-in");
     });
   }, []);
-
-  // ✅ Auto redirect if already logged in
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const parsed = JSON.parse(storedUser);
-      if (parsed.role === "admin") navigate("/admin");
-      else navigate("/home");
-    }
-  }, [navigate]);
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -45,28 +34,28 @@ function Auth() {
     setUser({ name: "", email: "", phone: "", address: "", password: "" });
   };
 
-  // 🔹 Login Handler
+  // 🔹 Login Handler (FIXED with headers)
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
       const { data } = await axios.post(
         "https://pesticide-fullsite-work.onrender.com/api/login",
         {
-          email: user.email.trim(),
-          password: user.password.trim(),
+          email: user.email,
+          password: user.password,
         },
-        { headers: { "Content-Type": "application/json" } }
+        {
+          headers: { "Content-Type": "application/json" },
+        }
       );
-
-      // ✅ Save user session
-      localStorage.setItem("user", JSON.stringify(data));
 
       if (data?.role === "admin") navigate("/admin");
       else navigate("/home");
 
-      resetForm();
+      resetForm(); // clear inputs after login
     } catch (err) {
-      alert(err.response?.data?.message || "❌ Login failed");
+      alert(err.response?.data?.message || "Login failed");
     }
   };
 
@@ -74,23 +63,14 @@ function Auth() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        "https://pesticide-fullsite-work.onrender.com/api/userreg",
-        {
-          name: user.name.trim(),
-          email: user.email.trim(),
-          phone: user.phone.trim(),
-          address: user.address.trim(),
-          password: user.password.trim(),
-        },
-        { headers: { "Content-Type": "application/json" } }
-      );
-
-      alert("✅ Registered successfully. Please login.");
-      resetForm();
-      setIsRegister(false);
+      await axios.post("https://pesticide-fullsite-work.onrender.com/api/userreg", user, {
+        headers: { "Content-Type": "application/json" },
+      });
+      alert("Registered successfully");
+      resetForm();       // clear inputs
+      setIsRegister(false); // back to login form
     } catch (err) {
-      alert(err.response?.data?.message || "❌ Register failed");
+      alert(err.response?.data?.message || "Register failed");
     }
   };
 
@@ -176,7 +156,7 @@ function Auth() {
                     onChange={inputHandler}
                     required
                     className="lp-input"
-                    autoComplete="on"
+                    autoComplete="off"
                   />
                 </div>
 
@@ -200,7 +180,7 @@ function Auth() {
                   <button
                     type="button"
                     onClick={() => {
-                      resetForm();
+                      resetForm();       // ✅ clear fields before switching
                       setIsRegister(true);
                     }}
                     className="lp-link-btn"
@@ -283,7 +263,7 @@ function Auth() {
                   <button
                     type="button"
                     onClick={() => {
-                      resetForm();
+                      resetForm();       // ✅ clear fields before switching
                       setIsRegister(false);
                     }}
                     className="lp-link-btn"
